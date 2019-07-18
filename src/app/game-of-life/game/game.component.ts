@@ -13,13 +13,17 @@ export class GameComponent implements OnInit {
   cells: Cell[][];
   autoPlayInterval: any;
   speed = 0;
-
+  iterationPause: number;
+  iterationCount = 0;
+  speedMessage = 'play turn every {0} second';
+  speedMessageDisplayed: string;
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.width = +this.route.snapshot.paramMap.get('width');
     this.height = +this.route.snapshot.paramMap.get('height');
     this.createGrid();
+    this.updateSpeedMessage();
   }
 
   private createGrid(): void {
@@ -49,8 +53,8 @@ export class GameComponent implements OnInit {
   }
 
   adjustSpeed() {
-    console.log(this.speed);
     clearInterval(this.autoPlayInterval);
+    this.updateSpeedMessage();
     if (this.speed === 0) {
       return;
     }
@@ -58,6 +62,11 @@ export class GameComponent implements OnInit {
   }
 
   playTurn() {
+    if (this.iterationPause === this.iterationCount) {
+      clearInterval(this.autoPlayInterval);
+      this.speed = 0;
+      return;
+    }
     const cellsThatWillDie: Cell[] = [];
     const cellsThatWillBeBorn: Cell[] = [];
     this.cells.forEach(row => {
@@ -74,7 +83,7 @@ export class GameComponent implements OnInit {
         } else {
           const livingNeighborCount = this.getLivingNeighborCountAtStartOfTurn(cell.row, cell.column);
           if (livingNeighborCount === 3) {
-            //born
+            // born
             cellsThatWillBeBorn.push(cell);
           }
         }
@@ -83,9 +92,18 @@ export class GameComponent implements OnInit {
     this.endTurn(cellsThatWillBeBorn, cellsThatWillDie);
   }
 
+  private updateSpeedMessage() {
+    if (this.speed === 0) {
+      this.speedMessageDisplayed = this.speedMessage.replace('{0}', '0');
+    } else {
+      this.speedMessageDisplayed = this.speedMessage.replace('{0}', '' + (2000 - this.speed) / 1000);
+    }
+  }
+
   private endTurn(cellsThatMustBeBorn: Cell[], cellsThatMustDie: Cell[]) {
     cellsThatMustBeBorn.forEach(cell => cell.state = State.Alive);
     cellsThatMustDie.forEach(cell => cell.state = State.Dead);
+    this.iterationCount++;
   }
 
   private getLivingNeighborCountAtStartOfTurn(rowIndex: number, columnIndex: number) {

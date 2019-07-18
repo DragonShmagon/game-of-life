@@ -1,24 +1,27 @@
 <div class="container-fluid game-container">
   <div>
     <h1>GAME!!!</h1>
-    <div class="row">
-      <div class="col-md-12">
-        <p>Board size : {{ width }} by {{ height }}</p>
-      </div>
+    <p>Board size : {{ width }} by {{ height }}</p>
+    <p><b>Iteration <span style="color: green;">#{{ iterationCount }}</span></b></p>
+    <div class="form-group">
+      <button class="btn btn-default" (click)="playTurn()">Next turn</button>
     </div>
     <div class="row">
-      <div class="col-md-12">
-        <button class="btn btn-default" (click)="playTurn()">Next turn</button>
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-md-12">
-        <input type="range" min="0" max="2000" value="1800" [(ngModel)]="speed" (change)="adjustSpeed()" width="150px;"
+      <div class="col-md-2">
+        <label for="speedRange">Speed <span
+            style="color: gray; font-weight: normal"><i>{{ speedMessageDisplayed }}</i></span></label>
+        <input type="range" id="speedRange" min="0" max="2000" value="1800" [(ngModel)]="speed" (change)="adjustSpeed()"
           class="kev-range-input">
       </div>
     </div>
-    <br>
+    <div class="row">
+      <div class="col-md-2">
+        <div class="form-group">
+          <label for="iterationPause">Pause at iteration #</label>
+          <input type="number" id="iterationPause" class="form-control" [(ngModel)]="iterationPause">
+        </div>
+      </div>
+    </div>
     <table>
       <tr *ngFor="let row of cells">
         <td *ngFor="let cell of row">

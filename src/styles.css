@@ -93,3 +93,7 @@ table, tr, td {
   background: rgb(0, 119, 255);
   cursor: pointer;
 }
+
+.form-inline * {
+  padding-right: 5px;
+}

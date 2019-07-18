@@ -9,8 +9,8 @@ import { Router } from '@angular/router';
 export class StartGameComponent {
 
   boardDimensions = new FormGroup({
-    width: new FormControl(20, [Validators.required, Validators.max(50)]),
-    height: new FormControl(20, [Validators.required, Validators.max(50)]),
+    width: new FormControl(20, [Validators.required, Validators.max(100)]),
+    height: new FormControl(20, [Validators.required, Validators.max(100)]),
   });
 
   constructor(private router: Router) { }
