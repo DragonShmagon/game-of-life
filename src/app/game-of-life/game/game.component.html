@@ -1,17 +1,59 @@
 <div class="container-fluid game-container">
   <div class="col-sm-2">
-    <h1>GAME!!!</h1>
+    <h1>Game of life</h1>
     <p>Board size : {{ width }} by {{ height }}</p>
-    <p><b>Iteration <span style="color: green;">#{{ iterationCount }}</span></b></p>
-    <div class="form-group">
-      <button class="btn btn-default" (click)="playTurn()">Next turn</button>
+    <p><b>Iteration <span style="color:#66afe9;">#{{ iterationCount }}</span></b></p>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <button class="btn" [ngClass]="{ 'btn-success': !animationsOn, 'btn-danger': animationsOn }"
+            (click)="toggleAnimations()"><span *ngIf="animationsOn">Disable animations</span><span *ngIf="!animationsOn">Enable animations</span>
+          </button>
+        </div>
+      </div>
     </div>
     <div class="row">
       <div class="col-md-12">
-        <label for="speedRange">Speed <span
-            style="color: gray; font-weight: normal"><i>{{ speedMessageDisplayed }}</i></span></label>
-        <input type="range" id="speedRange" min="0" max="2000" value="1800" [(ngModel)]="speed" (change)="adjustSpeed()"
-          class="kev-range-input">
+        <div class="form-group">
+          <button class="btn btn-default" (click)="fillGrid()">Fill board <span
+              class="glyphicon glyphicon-th"></span></button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <button class="btn btn-default" (click)="createGrid()">Clear board <span
+              class="glyphicon glyphicon-erase"></span></button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <button class="btn btn-default" (click)="playTurn()">Next turn <span
+              class="glyphicon glyphicon-chevron-right"></span></button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="size">Zoom <span class="glyphicon glyphicon-search"></span></label>
+          <input type="number" id="size" min="0" max="2000" value="1800" class="form-control" [(ngModel)]="zoom"
+            (change)="adjustZoom()">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="speedRange">Speed <span *ngIf="speed === 0" class="glyphicon glyphicon-pause"></span><span
+              *ngIf="speed > 0" class="glyphicon glyphicon-play"> </span> <span *ngIf="speed > 0"
+              style="color: gray; font-weight: normal"><i>{{ speedMessageDisplayed }}</i></span></label>
+          <input type="range" id="speedRange" min="0" max="2000" value="1800" [(ngModel)]="speed"
+            (change)="adjustSpeed()" class="kev-range-input">
+        </div>
       </div>
     </div>
     <div class="row">
@@ -24,11 +66,11 @@
     </div>
   </div>
   <div class="col-sm-8">
-    <table>
+    <table *ngIf="!isLoading">
       <tr *ngFor="let row of cells">
         <td *ngFor="let cell of row">
-          <div class="cell" (click)="toggleLife(cell)">
-            <div [ngClass]="{'alive': isCellAlive(cell)}">
+          <div class="cell" (click)="toggleLife(cell)" [style.width.px]="zoom" [style.height.px]="zoom">
+            <div [ngClass]="{'alive': isCellAlive(cell), 'animated': animationsOn}">
             </div>
           </div>
         </td>

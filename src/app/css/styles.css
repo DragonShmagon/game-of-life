@@ -26,21 +26,25 @@ table, tr, td {
 /* cells stuff */
 .cell {
   cursor: pointer;
-  height: 25px;
-  width: 25px;
   padding: 0px;
   border: none;
   margin: none;
   background-color: rgba(76, 165, 67, 0.781);
+  
 }
 .cell:hover {
   background-color: rgb(190, 255, 116);
 }
-.cell img {
-  position: absolute;
-}
 .cell>.alive{
-  background-image: url("assets/KevCell2.png");
+  background-image: url("../../assets/KevCell2.png");
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+.cell>.alive.animated{
+  background-image: url("../../assets/KevCell2.png");
   animation-name: fade;
 	animation-timing-function: ease-in-out;
 	animation-iteration-count: infinite;
@@ -48,6 +52,9 @@ table, tr, td {
   animation-direction: alternate;
   width: 100%;
   height: 100%;
+  background-position: center;
+  background-size: 100%;
+  background-repeat: no-repeat;
 }
 @keyframes fade {
 	0% {
@@ -94,6 +101,30 @@ table, tr, td {
   cursor: pointer;
 }
 
-.form-inline * {
-  padding-right: 5px;
+.glyphicon {
+  font-size: 16px;
+  color: #66afe9;
+}
+
+.glyphicon.glyphicon-check {
+  color: black;
+}
+.glyphicon.glyphicon-remove {
+  color: black;
+}
+
+.glyphicon.glyphicon-erase {
+  color: #d9534f;
+}
+
+.glyphicon-pause {
+  animation-name: fade;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+	animation-duration: 0.5s;
+  animation-direction: alternate;
+}
+
+.form-inline>.btn {
+  margin-right: 5px;
 }

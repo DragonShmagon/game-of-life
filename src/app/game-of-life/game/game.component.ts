@@ -15,8 +15,12 @@ export class GameComponent implements OnInit {
   speed = 0;
   iterationPause: number;
   iterationCount = 0;
-  speedMessage = 'play turn every {0} second';
+  speedMessage = 'every {0} second';
   speedMessageDisplayed: string;
+  zoom = 25;
+  cellDimensions: string;
+  animationsOn = true;
+
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -24,15 +28,33 @@ export class GameComponent implements OnInit {
     this.height = +this.route.snapshot.paramMap.get('height');
     this.createGrid();
     this.updateSpeedMessage();
+    this.adjustZoom();
   }
 
-  private createGrid(): void {
+  toggleAnimations()  {
+    this.animationsOn = !this.animationsOn;
+  }
+
+  createGrid(): void {
     this.cells = [];
     for (let row = 0; row < this.height; row++) {
       this.cells[row] = [];
       for (let column = 0; column < this.width; column++) {
         this.cells[row][column] = {
           state: State.Dead,
+          row,
+          column
+        };
+      }
+    }
+  }
+
+  fillGrid() {
+    for (let row = 0; row < this.height; row++) {
+      this.cells[row] = [];
+      for (let column = 0; column < this.width; column++) {
+        this.cells[row][column] = {
+          state: State.Alive,
           row,
           column
         };
@@ -52,6 +74,10 @@ export class GameComponent implements OnInit {
     return cell.state === State.Alive;
   }
 
+  adjustZoom() {
+    this.cellDimensions = `width: ${this.zoom}px; height: ${this.zoom}px`;
+  }
+
   adjustSpeed() {
     clearInterval(this.autoPlayInterval);
     this.updateSpeedMessage();
@@ -65,6 +91,7 @@ export class GameComponent implements OnInit {
     if (this.iterationPause === this.iterationCount) {
       clearInterval(this.autoPlayInterval);
       this.speed = 0;
+      this.iterationPause = null;
       return;
     }
     const cellsThatWillDie: Cell[] = [];
@@ -93,11 +120,7 @@ export class GameComponent implements OnInit {
   }
 
   private updateSpeedMessage() {
-    if (this.speed === 0) {
-      this.speedMessageDisplayed = this.speedMessage.replace('{0}', '0');
-    } else {
-      this.speedMessageDisplayed = this.speedMessage.replace('{0}', '' + (2000 - this.speed) / 1000);
-    }
+    this.speedMessageDisplayed = this.speedMessage.replace('{0}', '' + (2000 - this.speed) / 1000);
   }
 
   private endTurn(cellsThatMustBeBorn: Cell[], cellsThatMustDie: Cell[]) {
@@ -115,27 +138,27 @@ export class GameComponent implements OnInit {
     const lessThanWorldLimits = columnIndex > 0;
     const greaterThanWorldLimits = columnIndex < this.width - 1;
     if (rowIndex > 0) {
-      neighbors.push(this.cells[rowIndex - 1][columnIndex]);
+      neighbors.push(this.cells[rowIndex - 1][columnIndex]); //below
       if (lessThanWorldLimits) {
-        neighbors.push(this.cells[rowIndex - 1][columnIndex - 1]);
+        neighbors.push(this.cells[rowIndex - 1][columnIndex - 1]); //below left
       }
       if (greaterThanWorldLimits) {
-        neighbors.push(this.cells[rowIndex - 1][columnIndex + 1]);
+        neighbors.push(this.cells[rowIndex - 1][columnIndex + 1]); //below right
       }
     }
     if (lessThanWorldLimits) {
-      neighbors.push(this.cells[rowIndex][columnIndex - 1]);
+      neighbors.push(this.cells[rowIndex][columnIndex - 1]); //left
     }
     if (greaterThanWorldLimits) {
-      neighbors.push(this.cells[rowIndex][columnIndex + 1]);
+      neighbors.push(this.cells[rowIndex][columnIndex + 1]); //right
     }
     if (rowIndex < this.height - 1) {
-      neighbors.push(this.cells[rowIndex + 1][columnIndex]);
+      neighbors.push(this.cells[rowIndex + 1][columnIndex]); //above
       if (lessThanWorldLimits) {
-        neighbors.push(this.cells[rowIndex + 1][columnIndex - 1]);
+        neighbors.push(this.cells[rowIndex + 1][columnIndex - 1]); //above left
       }
       if (greaterThanWorldLimits) {
-        neighbors.push(this.cells[rowIndex + 1][columnIndex + 1]);
+        neighbors.push(this.cells[rowIndex + 1][columnIndex + 1]); //above right
       }
     }
     return neighbors;

@@ -25,7 +25,8 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.css"
+              "src/app/css/styles.css",
+              "src/app/css/full-screen-spinner.css"
             ],
             "scripts": []
           },
@@ -85,7 +86,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/app/css/styles.css"
             ],
             "scripts": []
           }
