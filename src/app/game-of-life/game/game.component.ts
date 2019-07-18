@@ -138,27 +138,27 @@ export class GameComponent implements OnInit {
     const lessThanWorldLimits = columnIndex > 0;
     const greaterThanWorldLimits = columnIndex < this.width - 1;
     if (rowIndex > 0) {
-      neighbors.push(this.cells[rowIndex - 1][columnIndex]); //below
+      neighbors.push(this.cells[rowIndex - 1][columnIndex]); // below
       if (lessThanWorldLimits) {
-        neighbors.push(this.cells[rowIndex - 1][columnIndex - 1]); //below left
+        neighbors.push(this.cells[rowIndex - 1][columnIndex - 1]); // below left
       }
       if (greaterThanWorldLimits) {
-        neighbors.push(this.cells[rowIndex - 1][columnIndex + 1]); //below right
+        neighbors.push(this.cells[rowIndex - 1][columnIndex + 1]); // below right
       }
     }
     if (lessThanWorldLimits) {
-      neighbors.push(this.cells[rowIndex][columnIndex - 1]); //left
+      neighbors.push(this.cells[rowIndex][columnIndex - 1]); // left
     }
     if (greaterThanWorldLimits) {
-      neighbors.push(this.cells[rowIndex][columnIndex + 1]); //right
+      neighbors.push(this.cells[rowIndex][columnIndex + 1]); // right
     }
     if (rowIndex < this.height - 1) {
-      neighbors.push(this.cells[rowIndex + 1][columnIndex]); //above
+      neighbors.push(this.cells[rowIndex + 1][columnIndex]); // above
       if (lessThanWorldLimits) {
-        neighbors.push(this.cells[rowIndex + 1][columnIndex - 1]); //above left
+        neighbors.push(this.cells[rowIndex + 1][columnIndex - 1]); // above left
       }
       if (greaterThanWorldLimits) {
-        neighbors.push(this.cells[rowIndex + 1][columnIndex + 1]); //above right
+        neighbors.push(this.cells[rowIndex + 1][columnIndex + 1]); // above right
       }
     }
     return neighbors;
