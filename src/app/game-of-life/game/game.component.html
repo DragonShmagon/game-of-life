@@ -1,5 +1,5 @@
 <div class="container-fluid game-container">
-  <div>
+  <div class="col-sm-2">
     <h1>GAME!!!</h1>
     <p>Board size : {{ width }} by {{ height }}</p>
     <p><b>Iteration <span style="color: green;">#{{ iterationCount }}</span></b></p>
@@ -7,7 +7,7 @@
       <button class="btn btn-default" (click)="playTurn()">Next turn</button>
     </div>
     <div class="row">
-      <div class="col-md-2">
+      <div class="col-md-12">
         <label for="speedRange">Speed <span
             style="color: gray; font-weight: normal"><i>{{ speedMessageDisplayed }}</i></span></label>
         <input type="range" id="speedRange" min="0" max="2000" value="1800" [(ngModel)]="speed" (change)="adjustSpeed()"
@@ -15,13 +15,15 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-2">
+      <div class="col-md-12">
         <div class="form-group">
           <label for="iterationPause">Pause at iteration #</label>
           <input type="number" id="iterationPause" class="form-control" [(ngModel)]="iterationPause">
         </div>
       </div>
     </div>
+  </div>
+  <div class="col-sm-8">
     <table>
       <tr *ngFor="let row of cells">
         <td *ngFor="let cell of row">
@@ -33,5 +35,4 @@
       </tr>
     </table>
   </div>
-
 </div>
