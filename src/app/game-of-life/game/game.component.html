@@ -1,0 +1,34 @@
+<div class="container-fluid game-container">
+  <div>
+    <h1>GAME!!!</h1>
+    <div class="row">
+      <div class="col-md-12">
+        <p>Board size : {{ width }} by {{ height }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <button class="btn btn-default" (click)="playTurn()">Next turn</button>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-12">
+        <input type="range" min="0" max="2000" value="1800" [(ngModel)]="speed" (change)="adjustSpeed()" width="150px;"
+          class="kev-range-input">
+      </div>
+    </div>
+    <br>
+    <table>
+      <tr *ngFor="let row of cells">
+        <td *ngFor="let cell of row">
+          <div class="cell" (click)="toggleLife(cell)">
+            <div [ngClass]="{'alive': isCellAlive(cell)}">
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+</div>
