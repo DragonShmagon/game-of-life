@@ -66,10 +66,10 @@
     </div>
   </div>
   <div class="col-sm-8">
-    <table *ngIf="!isLoading">
+    <table *ngIf="!isLoading" (mousedown)="setMouseDown()" (mouseup)="setMouseUp()" (mouseleave)="setMouseUp()" ondragstart="return false;" ondrop="return false;">
       <tr *ngFor="let row of cells">
         <td *ngFor="let cell of row">
-          <div class="cell" (click)="toggleLife(cell)" [style.width.px]="zoom" [style.height.px]="zoom">
+          <div class="cell" (click)="toggleLife(cell)" (mouseenter)="toggleLifeWithDrag(cell)" [style.width.px]="zoom" [style.height.px]="zoom">
             <div [ngClass]="{'alive': isCellAlive(cell), 'animated': animationsOn}">
             </div>
           </div>

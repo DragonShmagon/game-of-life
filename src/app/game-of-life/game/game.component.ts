@@ -20,6 +20,7 @@ export class GameComponent implements OnInit {
   zoom = 25;
   cellDimensions: string;
   animationsOn = true;
+  isMouseDown = false;
 
   constructor(private route: ActivatedRoute) { }
 
@@ -59,6 +60,20 @@ export class GameComponent implements OnInit {
           column
         };
       }
+    }
+  }
+
+  setMouseDown() {
+    this.isMouseDown = true;
+  }
+
+  setMouseUp() {
+    this.isMouseDown = false;
+  }
+
+  toggleLifeWithDrag(cell: Cell) {
+    if (this.isMouseDown) {
+      cell.state = State.Alive;
     }
   }
 
